@@ -1,4 +1,4 @@
-package main
+package structures
 
 type Team struct {
 	Name  string `json:"name,omitempty" db:"name"`

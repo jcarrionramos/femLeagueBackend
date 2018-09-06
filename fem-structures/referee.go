@@ -1,4 +1,4 @@
-package main
+package structures
 
 type Referee struct {
 	Rut        int    `json:"rut,omitempty" "db:"rut"`

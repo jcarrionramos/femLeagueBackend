@@ -1,4 +1,4 @@
-package main
+package structures
 
 type Match struct {
 	Local_name  string `json"local_name,omitempty" db"local_name"`

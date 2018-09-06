@@ -1,4 +1,4 @@
-package main
+package structures
 
 type Response struct {
 	Status int         `json:"-"`

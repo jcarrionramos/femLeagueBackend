@@ -1,4 +1,4 @@
-package main
+package structures
 
 type Player struct {
 	Rut          int    `json:"rut,omitempty" "db:"rut"`

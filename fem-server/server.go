@@ -14,7 +14,7 @@ func New() *gin.Engine {
 
 	r.GET("/positions", positions)
 	r.GET("/nextmatchs", nextMatchs)
-	r.GET("/maxgoalcore", maxGoalScore)
+	r.GET("/maxgoalscore", maxGoalScore)
 
 	return r
 }
