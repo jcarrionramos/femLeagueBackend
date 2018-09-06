@@ -11,11 +11,11 @@ CREATE TABLE IF NOT EXISTS "referees" (
 );
 CREATE TABLE IF NOT EXISTS "teams" (
     name text PRIMARY KEY,
-    address text NOT NULL,
-    phone text NOT NULL,
     win integer NOT NULL,
     draw integer NOT NULL,
-    loss integer NOT NULL
+    loss integer NOT NULL,
+    total integer NOT NULL,
+    active integer NOT NULL
 );
 CREATE TABLE IF NOT EXISTS "players" (
     rut integer PRIMARY KEY,
@@ -23,9 +23,9 @@ CREATE TABLE IF NOT EXISTS "players" (
     last_name text NOT NULL,
     email text NOT NULL UNIQUE,
     phone text NOT NULL UNIQUE,
-    team_name NOT NULL,
-    dorsal_number text NOT NULL,
-    goal number NOT NULL
+    team_name text NOT NULL,
+    dorsal_number integer NOT NULL,
+    score integer NOT NULL
 );
 CREATE TABLE IF NOT EXISTS "matchs" (
     local_name text NOT NULL,
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS "matchs" (
     local_goal integer NOT NULL,
     visit_goal integer NOT NULL,
     referee_rut text NOT NULL,
-    active integer NOT NULL,
     day integer NOT NULL,
+    played integer NOT NULL,
     PRIMARY KEY (local_name, visit_name)
 );
 COMMIT;
