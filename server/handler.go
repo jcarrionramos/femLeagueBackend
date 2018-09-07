@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	models "github.com/jcarrionramos/femLeague-backend/fem-structures"
-	structures "github.com/jcarrionramos/femLeague-backend/fem-structures"
+	"github.com/jcarrionramos/femLeagueBackend/models"
+	"github.com/jcarrionramos/femLeagueBackend/structures"
 )
 
 func pong(c *gin.Context) {
@@ -34,5 +34,18 @@ func nextMatchs(c *gin.Context) {
 }
 
 func maxGoalScore(c *gin.Context) {
+	players, err := models.SelectTopScors()
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, structures.Response{
+			Status: http.StatusInternalServerError,
+			Meta:   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   players,
+	})
 }

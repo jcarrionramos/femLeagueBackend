@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS "teams" (
     total integer NOT NULL,
     active integer NOT NULL
 );
+INSERT INTO teams VALUES('Colo-Colo',0,0,0,0,0);
+INSERT INTO teams VALUES('Universidad de Chile',0,0,0,0,0);
+INSERT INTO teams VALUES('Cobreloa',0,0,0,0,0);
 CREATE TABLE IF NOT EXISTS "players" (
     rut integer PRIMARY KEY,
     first_name text NOT NULL,
@@ -27,6 +30,9 @@ CREATE TABLE IF NOT EXISTS "players" (
     dorsal_number integer NOT NULL,
     score integer NOT NULL
 );
+INSERT INTO players VALUES(1,'Javier','Carrion','javier@udp.cl','987373439','Colo-Colo',7,5);
+INSERT INTO players VALUES(2,'Felipe','Delgado','felipe@udp.cl','2943078','Colo-Colo',11,3);
+INSERT INTO players VALUES(3,'Jaime','Carbone','jaime@udp.cl','999999','Universidad de Chile',10,2);
 CREATE TABLE IF NOT EXISTS "matchs" (
     local_name text NOT NULL,
     visit_name text NOT NULL,

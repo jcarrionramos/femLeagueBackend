@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	models "github.com/jcarrionramos/femLeague-backend/fem-models"
-	server "github.com/jcarrionramos/femLeague-backend/fem-server"
+	"github.com/jcarrionramos/femLeagueBackend/models"
+	"github.com/jcarrionramos/femLeagueBackend/server"
 )
 
 func main() {
