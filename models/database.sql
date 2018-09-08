@@ -33,14 +33,19 @@ CREATE TABLE IF NOT EXISTS "players" (
 INSERT INTO players VALUES(1,'Javier','Carrion','javier@udp.cl','987373439','Colo-Colo',7,5);
 INSERT INTO players VALUES(2,'Felipe','Delgado','felipe@udp.cl','2943078','Colo-Colo',11,3);
 INSERT INTO players VALUES(3,'Jaime','Carbone','jaime@udp.cl','999999','Universidad de Chile',10,2);
-CREATE TABLE IF NOT EXISTS "matchs" (
+CREATE TABLE IF NOT EXISTS "matches" (
     local_name text NOT NULL,
     visit_name text NOT NULL,
-    local_goal integer NOT NULL,
-    visit_goal integer NOT NULL,
-    referee_rut text NOT NULL,
+    season text NOT NULL,
     day integer NOT NULL,
     played integer NOT NULL,
-    PRIMARY KEY (local_name, visit_name)
+    local_score integer NOT NULL,
+    visit_score integer NOT NULL,
+    referee_rut text NOT NULL,
+    PRIMARY KEY (local_name, visit_name, season)
 );
+INSERT INTO matches VALUES('Colo-Colo', 'Universidad de Chile', '2-2018', 1, 0, 0, 0, '19137116-k');
+INSERT INTO matches VALUES('Colo-Colo', 'Cobreloa', '2-2018', 2, 0, 0, 0, '19137116-k');
+INSERT INTO matches VALUES('Cobreloa', 'Universidad de Chile', '2-2018', 3, 0, 0, 0, '19137116-k');
+INSERT INTO matches VALUES('Universidad de Chile', 'Colo-Colo', '2-2018', 4, 0, 0, 0, '19137116-k');
 COMMIT;

@@ -41,9 +41,38 @@ func SelectAllTeams() (teams []structures.Team, err error) {
 	return teams, nil
 }
 
-func SelectTopScors() (players []structures.Player, err error) {
+func SelectNextsMatches() (matches []structures.Match, err error) {
+	rows, err := db.Query(`SELECT local_name, visit_name, day FROM matches WHERE
+		played = 0 ORDER BY day ASC`)
+
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	for rows.Next() {
+		var local, visit string
+		var day int
+		err = rows.Scan(&local, &visit, &day)
+
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+
+		matches = append(matches, structures.Match{
+			Local_name: local,
+			Visit_name: visit,
+			Day:        day,
+		})
+	}
+
+	return matches, nil
+}
+
+func SelectTopScorers() (players []structures.Player, err error) {
 	rows, err := db.Query(`SELECT first_name, last_name, score, dorsal_number,
-		 team_name FROM players ORDER BY score DESC LIMIT 3`)
+		team_name FROM players ORDER BY score DESC LIMIT 3`)
 
 	if err != nil {
 		log.Println(err)

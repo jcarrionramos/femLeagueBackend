@@ -8,43 +8,56 @@ import (
 	"github.com/jcarrionramos/femLeagueBackend/structures"
 )
 
-func pong(c *gin.Context) {
-	c.String(http.StatusOK, "pong")
+func pong(ctx *gin.Context) {
+	ctx.String(http.StatusOK, "pong")
 }
 
-func positions(c *gin.Context) {
+func positions(ctx *gin.Context) {
 	teams, err := models.SelectAllTeams()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, structures.Response{
+		ctx.JSON(http.StatusInternalServerError, structures.Response{
 			Status: http.StatusInternalServerError,
 			Meta:   err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, structures.Response{
+	ctx.JSON(http.StatusOK, structures.Response{
 		Status: http.StatusOK,
 		Data:   teams,
 	})
 }
 
-func nextMatchs(c *gin.Context) {
-
-}
-
-func maxGoalScore(c *gin.Context) {
-	players, err := models.SelectTopScors()
+func nextMatches(ctx *gin.Context) {
+	matches, err := models.SelectNextsMatches()
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, structures.Response{
+		ctx.JSON(http.StatusInternalServerError, structures.Response{
 			Status: http.StatusInternalServerError,
 			Meta:   err.Error(),
 		})
 		return
 	}
 
-	c.JSON(http.StatusOK, structures.Response{
+	ctx.JSON(http.StatusOK, structures.Response{
+		Status: http.StatusOK,
+		Data:   matches,
+	})
+}
+
+func topScorers(ctx *gin.Context) {
+	players, err := models.SelectTopScorers()
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, structures.Response{
+			Status: http.StatusInternalServerError,
+			Meta:   err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, structures.Response{
 		Status: http.StatusOK,
 		Data:   players,
 	})
