@@ -9,7 +9,7 @@ import (
 
 // db is a global variable defined in /models/db.go
 
-func SelectAllTeams() (teams []structures.Team, err error) {
+func SelectActivesTeams() (teams []structures.Team, err error) {
 	rows, err := db.Query(`SELECT * FROM teams ORDER BY total DESC`)
 
 	if err != nil {
@@ -73,7 +73,6 @@ func SelectNextsMatches() (matches []structures.Match, err error) {
 func SelectTopScorers() (players []structures.Player, err error) {
 	rows, err := db.Query(`SELECT first_name, last_name, score, dorsal_number,
 		team_name FROM players ORDER BY score DESC LIMIT 3`)
-
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -85,12 +84,10 @@ func SelectTopScorers() (players []structures.Player, err error) {
 		var firstName, lastName, dorsalNumber, teamName string
 		var score int
 		err = rows.Scan(&firstName, &lastName, &score, &dorsalNumber, &teamName)
-
 		if err != nil {
 			log.Println(err)
 			return nil, err
 		}
-
 		players = append(players, structures.Player{
 			FirstName:    firstName,
 			LastName:     lastName,
@@ -101,4 +98,85 @@ func SelectTopScorers() (players []structures.Player, err error) {
 	}
 
 	return players, nil
+}
+
+func InsertTeam(team structures.Team) error {
+	sqlstmt := `INSERT INTO teams VALUES ($1,$2,$3,$4,$5,$6)`
+
+	_, err := db.Exec(sqlstmt, team.Name, team.Win, team.Draw,
+		team.Loss, team.Total, 0)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
+}
+
+func InsertPlayer(player structures.Player) error {
+	sqlstmt := `INSERT INTO players VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`
+
+	_, err := db.Exec(sqlstmt, player.Rut, player.FirstName, player.LastName,
+		player.Email, player.Phone, player.TeamName, player.DorsalNumber, 0)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
+}
+
+func InsertReferee(referee structures.Referee) error {
+	sqlstmt := `INSERT INTO referees VALUES ($1,$2,$3,$4,$5,$6,$7)`
+
+	_, err := db.Exec(sqlstmt, referee.Rut, referee.FirstName, referee.LastName,
+		referee.Email, referee.Phone, 0, 0)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
+}
+
+func DeleteTeam(name string) error {
+	sqlstmt := `DELETE FROM teams WHERE name=$1`
+
+	_, err := db.Exec(sqlstmt, name)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
+}
+
+func DeletePlayer(rut int) error {
+	sqlstmt := `DELETE FROM players WHERE rut=$1`
+
+	_, err := db.Exec(sqlstmt, rut)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
+}
+
+func DeleteReferee(rut int) error {
+	sqlstmt := `DELETE FROM referees WHERE rut=$1`
+
+	_, err := db.Exec(sqlstmt, rut)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
 }
