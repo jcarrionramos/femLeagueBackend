@@ -65,6 +65,40 @@ func topScorers(ctx *gin.Context) {
 	})
 }
 
+func allPlayers(ctx *gin.Context) {
+	players, err := models.SelectAllPlayers()
+
+	if err != nil {
+		ctx.JSON(500, structures.Response{
+			Status: 500,
+			Meta:   err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(200, structures.Response{
+		Status: 200,
+		Data:   players,
+	})
+}
+
+func allReferees(ctx *gin.Context) {
+	referees, err := models.SelectAllReferees()
+
+	if err != nil {
+		ctx.JSON(500, structures.Response{
+			Status: 500,
+			Meta:   err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(200, structures.Response{
+		Status: 200,
+		Data:   referees,
+	})
+}
+
 func newTeam(ctx *gin.Context) {
 	team := structures.Team{
 		Name:  ctx.Query("name"),

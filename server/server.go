@@ -33,6 +33,8 @@ func New() *gin.Engine {
 	r.GET("/positions", positions)
 	r.GET("/nextmatches", nextMatches)
 	r.GET("/maxgoalscorers", topScorers)
+	r.GET("/allplayers", allPlayers)
+	r.GET("/allreferees", allReferees)
 
 	r.GET("/newteam", newTeam)
 	r.POST("/newplayer", newPlayer)

@@ -100,6 +100,67 @@ func SelectTopScorers() (players []structures.Player, err error) {
 	return players, nil
 }
 
+func SelectAllPlayers() (players []structures.Player, err error) {
+	rows, err := db.Query(`SELECT rut, first_name, last_name, dorsal_number,
+	team_name FROM players ORDER BY team_name DESC`)
+
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var firstName, lastName, dorsalNumber, teamName string
+		var rut int
+		err = rows.Scan(&rut, &firstName, &lastName, &dorsalNumber, &teamName)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		players = append(players, structures.Player{
+			Rut:          rut,
+			FirstName:    firstName,
+			LastName:     lastName,
+			DorsalNumber: dorsalNumber,
+			TeamName:     teamName,
+		})
+	}
+
+	return players, nil
+}
+
+func SelectAllReferees() (referees []structures.Referee, err error) {
+	rows, err := db.Query(`SELECT rut, first_name, last_name, email
+		 FROM referees`)
+
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var firstName, lastName, email string
+		var rut int
+		err = rows.Scan(&rut, &firstName, &lastName, &email)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		referees = append(referees, structures.Referee{
+			Rut:       rut,
+			FirstName: firstName,
+			LastName:  lastName,
+			Email:     email,
+		})
+	}
+
+	return referees, nil
+}
+
 func InsertTeam(team structures.Team) error {
 	sqlstmt := `INSERT INTO teams VALUES ($1,$2,$3,$4,$5,$6)`
 
