@@ -203,6 +203,19 @@ func InsertReferee(referee structures.Referee) error {
 	return nil
 }
 
+func InsertMatch(local, visit, season string, day int) error {
+	sqlstmt := `INSERT INTO matches VALUES ($1,$2,$3,$4, 0, 0, 0, "null")`
+
+	_, err := db.Exec(sqlstmt, local, visit, season, day)
+
+	if err != nil {
+		log.Println(err)
+		return err
+
+	}
+	return nil
+}
+
 func DeleteTeam(name string) error {
 	sqlstmt := `DELETE FROM teams WHERE name=$1`
 

@@ -1,7 +1,6 @@
 package server
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -129,8 +128,6 @@ func newPlayer(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&player)
 
-	log.Println(player)
-
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, structures.Response{
 			Status: http.StatusBadRequest,
@@ -234,6 +231,53 @@ func deleteReferee(ctx *gin.Context) {
 		})
 		return
 	}
+
+	ctx.JSON(200, structures.Response{
+		Status: 200,
+		Data:   "succes",
+	})
+}
+
+func newFixture(ctx *gin.Context) {
+	d := struct {
+		TeamsName []string `json:"TeamsName"`
+		Season    string   `json:"Season"`
+	}{}
+
+	err := ctx.ShouldBindJSON(&d)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, structures.Response{
+			Status: http.StatusBadRequest,
+			Meta:   err.Error(),
+		})
+		return
+	}
+
+	//FIRST ROUND
+	_ = models.InsertMatch(d.TeamsName[0], d.TeamsName[5], d.Season, 1)
+	_ = models.InsertMatch(d.TeamsName[1], d.TeamsName[4], d.Season, 1)
+	_ = models.InsertMatch(d.TeamsName[2], d.TeamsName[3], d.Season, 1)
+
+	//SECOND ROUND
+	_ = models.InsertMatch(d.TeamsName[0], d.TeamsName[1], d.Season, 2)
+	_ = models.InsertMatch(d.TeamsName[4], d.TeamsName[2], d.Season, 2)
+	_ = models.InsertMatch(d.TeamsName[5], d.TeamsName[3], d.Season, 2)
+
+	//THIRD ROUND
+	_ = models.InsertMatch(d.TeamsName[2], d.TeamsName[0], d.Season, 3)
+	_ = models.InsertMatch(d.TeamsName[3], d.TeamsName[4], d.Season, 3)
+	_ = models.InsertMatch(d.TeamsName[1], d.TeamsName[5], d.Season, 3)
+
+	//FOURTH ROUND
+	_ = models.InsertMatch(d.TeamsName[0], d.TeamsName[3], d.Season, 4)
+	_ = models.InsertMatch(d.TeamsName[1], d.TeamsName[2], d.Season, 4)
+	_ = models.InsertMatch(d.TeamsName[5], d.TeamsName[4], d.Season, 4)
+
+	//FIFTH ROUND
+	_ = models.InsertMatch(d.TeamsName[4], d.TeamsName[0], d.Season, 5)
+	_ = models.InsertMatch(d.TeamsName[3], d.TeamsName[1], d.Season, 5)
+	_ = models.InsertMatch(d.TeamsName[2], d.TeamsName[5], d.Season, 5)
 
 	ctx.JSON(200, structures.Response{
 		Status: 200,

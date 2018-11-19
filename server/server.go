@@ -44,5 +44,7 @@ func New() *gin.Engine {
 	r.GET("deleteplayer", deletePlayer)
 	r.GET("deletereferee", deleteReferee)
 
+	r.POST("newfixture", newFixture)
+
 	return r
 }
