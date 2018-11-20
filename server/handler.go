@@ -14,7 +14,8 @@ func pong(ctx *gin.Context) {
 }
 
 func positions(ctx *gin.Context) {
-	teams, err := models.SelectActivesTeams()
+	active := ctx.Query("active")
+	teams, err := models.SelectActivesTeams(active)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, structures.Response{
@@ -279,8 +280,37 @@ func newFixture(ctx *gin.Context) {
 	_ = models.InsertMatch(d.TeamsName[3], d.TeamsName[1], d.Season, 5)
 	_ = models.InsertMatch(d.TeamsName[2], d.TeamsName[5], d.Season, 5)
 
+	_ = models.UpdateActivesTeams(d.TeamsName)
+
 	ctx.JSON(200, structures.Response{
 		Status: 200,
 		Data:   "succes",
+	})
+}
+
+func updateMatch(ctx *gin.Context) {
+	var m structures.Match
+
+	err := ctx.ShouldBindJSON(&m)
+
+	if err != nil {
+		ctx.JSON(400, structures.Response{
+			Status: 400,
+			Meta:   err.Error(),
+		})
+	}
+
+	err = models.UpdateFixture(m)
+
+	if err != nil {
+		ctx.JSON(400, structures.Response{
+			Status: 400,
+			Meta:   err.Error(),
+		})
+	}
+
+	ctx.JSON(200, structures.Response{
+		Status: 200,
+		Meta:   "success",
 	})
 }

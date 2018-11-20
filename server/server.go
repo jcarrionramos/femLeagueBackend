@@ -45,6 +45,7 @@ func New() *gin.Engine {
 	r.GET("deletereferee", deleteReferee)
 
 	r.POST("newfixture", newFixture)
+	r.POST("updatematch", updateMatch)
 
 	return r
 }
