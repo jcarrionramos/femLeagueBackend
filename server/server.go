@@ -3,9 +3,11 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 
+	// It's neccesary for sqlite conection
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// CORSMiddleware cors control
 func CORSMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")

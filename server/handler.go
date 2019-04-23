@@ -296,8 +296,9 @@ func updateMatch(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(400, structures.Response{
 			Status: 400,
-			Meta:   err.Error(),
+			Meta:   m,
 		})
+		return
 	}
 
 	err = models.UpdateFixture(m)
@@ -307,6 +308,7 @@ func updateMatch(ctx *gin.Context) {
 			Status: 400,
 			Meta:   err.Error(),
 		})
+		return
 	}
 
 	ctx.JSON(200, structures.Response{

@@ -245,7 +245,7 @@ func UpdateActivesTeams(teams []string) error {
 func UpdateFixture(m structures.Match) error {
 	sqlstmt := `UPDATE matches SET
 		played = 1, local_score=$1, visit_score=$2
-		WHERE local_name=$3 AND visit_name=$4 AND season=$5`
+		WHERE local_name=$3 AND visit_name=$4`
 
 	_, err := db.Exec(sqlstmt, m.Local_score, m.Visit_score,
 		m.Local_name, m.Visit_name, m.Season)
